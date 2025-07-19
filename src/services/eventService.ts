@@ -1,0 +1,62 @@
+import { PrismaClient } from '../../generated/prisma';
+
+const prisma = new PrismaClient();
+
+export const createEvent = async (data: {
+  title: string;
+  description: string;
+  location: string;
+  date: Date;
+  capacity: number;
+  price: number;
+  userId: string;
+}) => {
+  return prisma.event.create({ data });
+};
+
+export const getAllEvents = async () => {
+  return prisma.event.findMany({
+    where: {
+      date: {
+        gte: new Date(),
+      },
+    },
+    orderBy: {
+      date: 'asc',
+    },
+  });
+};
+
+export const getEventById = async (id: string) => {
+  return prisma.event.findUnique({ where: { id } });
+};
+
+export const updateEvent = async (id: string, data: {
+  title?: string;
+  description?: string;
+  location?: string;
+  date?: Date;
+  capacity?: number;
+  price?: number;
+}) => {
+  return prisma.event.update({
+    where: { id },
+    data,
+  });
+};
+
+export const getEventBookings = async (eventId: string) => {
+  return prisma.booking.findMany({
+    where: { eventId },
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+        },
+      },
+    },
+  });
+}; 
