@@ -10,7 +10,7 @@ export const createEvent = async (data: {
   capacity: number;
   price: number;
   userId: string;
-  thumbnail: string
+  thumbnail: string;
 }) => {
   return prisma.event.create({ data });
 };
@@ -29,7 +29,17 @@ export const getAllEvents = async () => {
 };
 
 export const getEventById = async (id: string) => {
-  return prisma.event.findUnique({ where: { id } });
+  return prisma.event.findUnique({
+    where: { id },
+    include: {
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  });
 };
 
 export const updateEvent = async (
