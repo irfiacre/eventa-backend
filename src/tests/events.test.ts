@@ -59,4 +59,4 @@ describe('Event Endpoints', () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('id', eventId);
   });
-}); 
+});

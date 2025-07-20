@@ -1,46 +1,51 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import { registerSchema, loginSchema } from '../validators/authValidator';
-import { createUser, findUserByEmail } from '../services/userService';
-import { signJwt } from '../utils/jwt';
+import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import { createUser, findUserByEmail } from "../services/userService";
+import { signJwt } from "../utils/jwt";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const parsed = registerSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.issues });
-    }
-    const { firstName, lastName, email, password, role } = parsed.data;
+    const { firstName, lastName, email, password, role } = req.body;
     const existing = await findUserByEmail(email);
     if (existing) {
-      return res.status(409).json({ message: 'Email already registered' });
+      return res.status(409).json({ message: "Email already registered" });
     }
     const hashed = await bcrypt.hash(password, 10);
-    const user = await createUser({ firstName, lastName, email, password: hashed, role });
-    return res.status(201).json({ id: user.id, email: user.email, role: user.role });
+    const user = await createUser({
+      firstName,
+      lastName,
+      email,
+      password: hashed,
+      role,
+    });
+    return res
+      .status(201)
+      .json({ id: user.id, email: user.email, role: user.role });
   } catch (err) {
-    return res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const parsed = loginSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.issues });
-    }
-    const { email, password } = parsed.data;
+    const { email, password } = req.body;
     const user = await findUserByEmail(email);
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    const token = signJwt({ id: user.id, role: user.role });
+    const token = signJwt({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+    });
     return res.json({ token });
   } catch (err) {
-    return res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: "Server error" });
   }
-}; 
+};

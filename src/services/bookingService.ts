@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../generated/prisma';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -25,13 +25,17 @@ export const getUserBookings = async (userId: string) => {
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 };
 
 export const getBookingById = async (id: string) => {
   return prisma.booking.findUnique({ where: { id } });
+};
+
+export const updateBooking = async (id: string, data: any) => {
+  return prisma.booking.update({ where: { id }, data });
 };
 
 export const deleteBooking = async (id: string) => {
@@ -51,4 +55,4 @@ export const getEventBookingCount = async (eventId: string) => {
   return prisma.booking.count({
     where: { eventId },
   });
-}; 
+};

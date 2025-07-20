@@ -5,7 +5,8 @@ import {
   getAllEvents as getAllEventsService, 
   getEventById as getEventByIdService, 
   updateEvent as updateEventService, 
-  getEventBookings as getEventBookingsService 
+  getEventBookings as getEventBookingsService,
+  deleteAnEvent as deleteEventService
 } from '../services/eventService';
 import { getEventBookingCount } from '../services/bookingService';
 
@@ -19,6 +20,7 @@ interface AuthRequest extends Request {
 export const getAllEvents = async (req: Request, res: Response) => {
   try {
     const events = await getAllEventsService();
+    
     res.json(events);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -68,6 +70,20 @@ export const updateEvent = async (req: AuthRequest, res: Response) => {
       updateData.date = new Date(parsed.data.date);
     }
     const event = await updateEventService(id, updateData);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    res.json(event);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const deleteEvent = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const event = await deleteEventService(id);
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
     }

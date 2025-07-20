@@ -12,4 +12,4 @@ export function signJwt(payload: object) {
 
 export function verifyJwt(token: string) {
   return jwt.verify(token, JWT_SECRET);
-} 
+}

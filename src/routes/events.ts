@@ -4,7 +4,8 @@ import {
   getEventById, 
   createEvent, 
   updateEvent, 
-  getEventBookings 
+  getEventBookings, 
+  deleteEvent
 } from '../controllers/eventController';
 import { authenticate, authorize } from '../middlewares/auth';
 
@@ -17,6 +18,7 @@ router.get('/:id', getEventById);
 // Admin routes
 router.post('/', authenticate, authorize(['admin']), createEvent);
 router.put('/:id', authenticate, authorize(['admin']), updateEvent);
+// router.delete('/:id', authenticate, authorize(['admin']), deleteEvent);
 router.get('/:id/bookings', authenticate, authorize(['admin']), getEventBookings);
 
-export default router; 
+export default router;

@@ -51,4 +51,4 @@ describe('Auth Endpoints', () => {
       .send({ email: testUser.email, password: 'wrongpassword' });
     expect(res.status).toBe(401);
   });
-}); 
+});

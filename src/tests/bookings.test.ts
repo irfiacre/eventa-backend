@@ -85,4 +85,4 @@ describe('Booking Endpoints', () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('message', 'Booking cancelled successfully');
   });
-}); 
+});

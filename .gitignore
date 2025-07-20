@@ -140,3 +140,5 @@ vite.config.ts.timestamp-*
 
 /generated/prisma
 *.js
+migrations
+package-lock.json

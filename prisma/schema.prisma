@@ -39,6 +39,7 @@ model Event {
   capacity    Int
   price       Float
   userId      String
+  thumbnail   String
   user        User      @relation(fields: [userId], references: [id])
   bookings    Booking[]
   createdAt   DateTime  @default(now())
@@ -51,4 +52,11 @@ model Booking {
   event     Event    @relation(fields: [eventId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+  status    Status   @default(pending)
+}
+
+enum Status {
+  pending
+  confirmed
+  cancelled
 }
