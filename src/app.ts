@@ -24,5 +24,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/auth', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/bookings', bookingRoutes);
+app.use('/analytics', bookingRoutes);
 
 export default app;
