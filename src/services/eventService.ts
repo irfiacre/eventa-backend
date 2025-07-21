@@ -17,14 +17,7 @@ export const createEvent = async (data: {
 
 export const getAllEvents = async () => {
   return prisma.event.findMany({
-    where: {
-      date: {
-        gte: new Date(),
-      },
-    },
-    orderBy: {
-      date: "asc",
-    },
+    orderBy: { date: "desc" },
   });
 };
 
