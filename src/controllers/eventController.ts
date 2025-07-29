@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { createEventSchema, updateEventSchema } from '../validators/eventValidator';
-import { 
-  createEvent as createEventService, 
-  getAllEvents as getAllEventsService, 
-  getEventById as getEventByIdService, 
-  updateEvent as updateEventService, 
+import {
+  createEvent as createEventService,
+  getAllEvents as getAllEventsService,
+  getEventById as getEventByIdService,
+  updateEvent as updateEventService,
   getEventBookings as getEventBookingsService,
   deleteAnEvent as deleteEventService
 } from '../services/eventService';
@@ -20,7 +20,7 @@ interface AuthRequest extends Request {
 export const getAllEvents = async (req: Request, res: Response) => {
   try {
     const events = await getAllEventsService();
-    
+
     res.json(events);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });

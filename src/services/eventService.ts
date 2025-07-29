@@ -72,3 +72,12 @@ export const getEventBookings = async (eventId: string) => {
     },
   });
 };
+
+export const getEventsCount = async (userId: string) =>
+  prisma.event.count({ where: { userId } });
+
+export const getUserEventsBooking = async (userId: string): Promise<any[]> =>
+  prisma.event.findMany({
+    where: {userId},
+    include: {bookings: true},
+  });

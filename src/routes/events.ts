@@ -11,11 +11,9 @@ import { authenticate, authorize } from '../middlewares/auth';
 
 const router = Router();
 
-// Public routes
 router.get('/', getAllEvents);
 router.get('/:id', getEventById);
 
-// Admin routes
 router.post('/', authenticate, authorize(['admin']), createEvent);
 router.put('/:id', authenticate, authorize(['admin']), updateEvent);
 // router.delete('/:id', authenticate, authorize(['admin']), deleteEvent);
