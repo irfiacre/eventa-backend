@@ -33,6 +33,8 @@ You can find the API documentation [here](https://documenter.getpostman.com/view
 > Please note that the file is to be named .env
 
 ```:plain
-DATABASE_URL=XXXX
-PORT=8000
+DATABASE_URL="XXXX"
+PORT=XXXX
+MAIL_APP_PSWRD="XXXXXXX"
+SENDER_EMAIL="XXXXX@XXXX.XXX"
 ```
