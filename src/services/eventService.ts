@@ -31,6 +31,7 @@ export const getEventById = async (id: string) => {
           lastName: true,
         },
       },
+      bookings: true,
     },
   });
 };

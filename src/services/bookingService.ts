@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+import { subDays } from "date-fns";
+import { BOOKING_DEADLINE } from "../utils/constants";
 
 const prisma = new PrismaClient();
 
@@ -54,5 +56,30 @@ export const checkExistingBooking = async (eventId: string, userId: string) => {
 export const getEventBookingCount = async (eventId: string) => {
   return prisma.booking.count({
     where: { eventId },
+  });
+};
+
+export const getUnconfirmedEvents = async (days: number) => {
+  const daysAgo = subDays(new Date(), days);  
+  return prisma.booking.findMany({
+    where: {
+      status: "pending",
+      createdAt: {
+        lt: daysAgo,
+      },
+    },
+    include: { user: true, event: true },
+  });
+};
+
+export const deleteUnconfirmedEvents = async (days: number) => {
+  const daysAgo = subDays(new Date(), days);
+  return prisma.booking.deleteMany({
+    where: {
+      status: "pending",
+      createdAt: {
+        lt: daysAgo,
+      },
+    },
   });
 };
