@@ -8,7 +8,6 @@ import {
   getEventBookings as getEventBookingsService,
   deleteAnEvent as deleteEventService
 } from '../services/eventService';
-import { getEventBookingCount } from '../services/bookingService';
 
 interface AuthRequest extends Request {
   user?: {
